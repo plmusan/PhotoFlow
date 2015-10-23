@@ -14,6 +14,10 @@
 		3390AC5C1BDA157100A5F0C0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3390AC5B1BDA157100A5F0C0 /* Images.xcassets */; };
 		3390AC5F1BDA157100A5F0C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3390AC5D1BDA157100A5F0C0 /* LaunchScreen.xib */; };
 		3390AC6B1BDA157100A5F0C0 /* PhotoFlowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3390AC6A1BDA157100A5F0C0 /* PhotoFlowTests.m */; };
+		3390AC871BDA223800A5F0C0 /* PFCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3390AC861BDA223800A5F0C0 /* PFCollectionViewCell.m */; };
+		3390AC8A1BDA226B00A5F0C0 /* PFView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3390AC891BDA226B00A5F0C0 /* PFView.storyboard */; };
+		3390AC8D1BDA229600A5F0C0 /* PFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3390AC8C1BDA229600A5F0C0 /* PFViewController.m */; };
+		3390AC931BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3390AC901BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,13 @@
 		3390AC641BDA157100A5F0C0 /* PhotoFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3390AC691BDA157100A5F0C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3390AC6A1BDA157100A5F0C0 /* PhotoFlowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoFlowTests.m; sourceTree = "<group>"; };
+		3390AC851BDA223800A5F0C0 /* PFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFCollectionViewCell.h; sourceTree = "<group>"; };
+		3390AC861BDA223800A5F0C0 /* PFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFCollectionViewCell.m; sourceTree = "<group>"; };
+		3390AC891BDA226B00A5F0C0 /* PFView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PFView.storyboard; sourceTree = "<group>"; };
+		3390AC8B1BDA229600A5F0C0 /* PFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFViewController.h; sourceTree = "<group>"; };
+		3390AC8C1BDA229600A5F0C0 /* PFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFViewController.m; sourceTree = "<group>"; };
+		3390AC8F1BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
+		3390AC901BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +92,7 @@
 		3390AC4D1BDA157100A5F0C0 /* PhotoFlow */ = {
 			isa = PBXGroup;
 			children = (
+				3390AC741BDA158400A5F0C0 /* PhotoFlowView */,
 				3390AC521BDA157100A5F0C0 /* AppDelegate.h */,
 				3390AC531BDA157100A5F0C0 /* AppDelegate.m */,
 				3390AC551BDA157100A5F0C0 /* ViewController.h */,
@@ -117,6 +129,28 @@
 				3390AC691BDA157100A5F0C0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3390AC741BDA158400A5F0C0 /* PhotoFlowView */ = {
+			isa = PBXGroup;
+			children = (
+				3390AC8E1BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout */,
+				3390AC8B1BDA229600A5F0C0 /* PFViewController.h */,
+				3390AC8C1BDA229600A5F0C0 /* PFViewController.m */,
+				3390AC851BDA223800A5F0C0 /* PFCollectionViewCell.h */,
+				3390AC861BDA223800A5F0C0 /* PFCollectionViewCell.m */,
+				3390AC891BDA226B00A5F0C0 /* PFView.storyboard */,
+			);
+			name = PhotoFlowView;
+			sourceTree = "<group>";
+		};
+		3390AC8E1BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3390AC8F1BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.h */,
+				3390AC901BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.m */,
+			);
+			path = CHTCollectionViewWaterfallLayout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3390AC5A1BDA157100A5F0C0 /* Main.storyboard in Resources */,
+				3390AC8A1BDA226B00A5F0C0 /* PFView.storyboard in Resources */,
 				3390AC5F1BDA157100A5F0C0 /* LaunchScreen.xib in Resources */,
 				3390AC5C1BDA157100A5F0C0 /* Images.xcassets in Resources */,
 			);
@@ -220,7 +255,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3390AC571BDA157100A5F0C0 /* ViewController.m in Sources */,
+				3390AC871BDA223800A5F0C0 /* PFCollectionViewCell.m in Sources */,
 				3390AC541BDA157100A5F0C0 /* AppDelegate.m in Sources */,
+				3390AC8D1BDA229600A5F0C0 /* PFViewController.m in Sources */,
+				3390AC931BDA258200A5F0C0 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				3390AC511BDA157100A5F0C0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +456,7 @@
 				3390AC701BDA157100A5F0C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3390AC711BDA157100A5F0C0 /* Build configuration list for PBXNativeTarget "PhotoFlowTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +465,7 @@
 				3390AC731BDA157100A5F0C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
