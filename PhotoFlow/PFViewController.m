@@ -8,6 +8,7 @@
 
 #import "PFViewController.h"
 #import "PFCollectionViewCell.h"
+#import "VBFPopFlatButton.h"
 
 const CGFloat PFViewBottonTypeHeight = 180.0;
 const NSTimeInterval AnimationDuration = 0.5;
@@ -20,6 +21,7 @@ const NSTimeInterval AnimationDuration = 0.5;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *footerView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet VBFPopFlatButton *rightButton;
 
 @end
 
@@ -35,12 +37,14 @@ const NSTimeInterval AnimationDuration = 0.5;
 
 - (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated {
     if (self.viewType == PFViewTypeBottom) {
+        _index = index;
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
     }
 }
 
 - (void)showPhotoFlowViewInViewController:(UIViewController *)controller viewType:(PFViewType)viewType {
+    if (self.isPhotoFlowViewShowing) return;
     [controller addChildViewController:self];
     [controller.view addSubview:self.view];
     [self changeViewType:viewType animated:NO];
@@ -53,22 +57,21 @@ const NSTimeInterval AnimationDuration = 0.5;
 
 - (void)changeViewType:(PFViewType)viewType animated:(BOOL)animated {
     if (! self.parentViewController) return;
-    self.viewType = viewType;
+    _viewType = viewType;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     BOOL isBottomType = viewType == PFViewTypeBottom;
+    self.rightButton.currentButtonType = isBottomType ? buttonUpBasicType : buttonDownBasicType;
     self.collectionView.alwaysBounceHorizontal = isBottomType;
     self.collectionView.alwaysBounceVertical = ! isBottomType;
     layout.scrollDirection = isBottomType ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionVertical;
     if (animated) {
         [UIView animateWithDuration:AnimationDuration animations:^{
             [self showPhotoFlowViewWithViewType:viewType];
-        } completion:^(BOOL finished) {
-            [self.collectionView reloadData];
         }];
     } else {
         [self showPhotoFlowViewWithViewType:viewType];
-        [self.collectionView reloadData];
     }
+    [self scrollToItemAtIndex:self.index animated:NO];
 }
 
 - (void)showPhotoFlowViewWithViewType:(PFViewType)viewType {
@@ -81,6 +84,17 @@ const NSTimeInterval AnimationDuration = 0.5;
         self.view.frame = self.parentViewController.view.frame;
     }
     [self.view layoutIfNeeded];
+}
+
+- (BOOL)isPhotoFlowViewShowing {
+    return self.parentViewController;
+}
+
+- (void)setDatasource:(NSArray *)datasource {
+    if (_datasource != datasource) {
+        _datasource = [datasource copy];
+        [self.collectionView reloadData];
+    }
 }
 
 - (void)setConstumHeaderView:(UIView *)constumHeaderView {
@@ -110,10 +124,11 @@ const NSTimeInterval AnimationDuration = 0.5;
     // Do any additional setup after loading the view.
     self.footerViewHeight.constant = 0.0;
 }
-- (IBAction)rightButtonPressed:(UIButton *)sender {
+- (IBAction)rightButtonPressed:(VBFPopFlatButton *)sender {
     if ([self.delegate respondsToSelector:@selector(photoFlowView:rightButtonPressed:)]) {
         [self.delegate photoFlowView:self rightButtonPressed:sender];
     }
+    
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {

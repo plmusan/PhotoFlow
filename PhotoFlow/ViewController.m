@@ -11,7 +11,8 @@
 
 @interface ViewController () <PFViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
+@property (strong, nonatomic) PFViewController *controller;
+@property (nonatomic) NSInteger showingIndex;
 @end
 
 @implementation ViewController
@@ -19,8 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-}
-- (IBAction)btnPressed:(id)sender {
     NSMutableArray *datasource = [NSMutableArray array];
     PFViewController *controller = [PFViewController defaultController];
     for (char i = 'a'; i < 't'; i ++) {
@@ -30,7 +29,12 @@
     }
     controller.datasource = datasource;
     controller.delegate = self;
-    [controller showPhotoFlowViewInViewController:self viewType:PFViewTypeBottom];
+    self.controller = controller;
+}
+- (IBAction)btnPressed:(id)sender {
+    [self.controller showPhotoFlowViewInViewController:self viewType:PFViewTypeBottom];
+    [self.controller scrollToItemAtIndex:self.showingIndex animated:YES];
+    
 }
 
 - (void)photoFlowView:(PFViewController *)controller rightButtonPressed:(UIButton *)rightButton {
@@ -42,8 +46,17 @@
 }
 
 - (void)photoFlowView:(PFViewController *)controller didSelectedItemAtIndex:(NSInteger)index {
+    self.showingIndex = index;
     self.imageView.image = controller.datasource[index];
     [controller dismissPhotoFlowView];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = touches.anyObject;
+    CGPoint location = [touch locationInView:self.view];
+    if (location.y > PFViewBottonTypeHeight) {
+        [self.controller dismissPhotoFlowView];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

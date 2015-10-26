@@ -13,25 +13,31 @@ typedef NS_ENUM(NSInteger, PFViewType) {
     PFViewTypeFullScreen,
 };
 
+extern const CGFloat PFViewBottonTypeHeight;
+extern const NSTimeInterval AnimationDuration;
+
 @protocol PFViewControllerDelegate;
 @interface PFViewController : UIViewController
 
 + (instancetype)defaultController;
 
-@property (nonatomic, assign) PFViewType viewType;
-// if [PFViewController parentViewController] is nil, nothing effect.
-- (void)changeViewType:(PFViewType)viewType animated:(BOOL)animated;
+- (void)showPhotoFlowViewInViewController:(UIViewController *)controller viewType:(PFViewType)viewType;
 
 @property (nonatomic, copy) NSArray *datasource;
-
 @property (nonatomic, weak) id <PFViewControllerDelegate> delegate;
+
+// if [PFViewController parentViewController] is nil, nothing effect.
+- (void)changeViewType:(PFViewType)viewType animated:(BOOL)animated;
+@property (nonatomic, readonly) PFViewType viewType;
+
+// only effect with PFViewTypeBottom
+- (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+@property (nonatomic, readonly) NSInteger index;
 
 @property (nonatomic, strong) UIView *constumHeaderView; //default is nil
 @property (nonatomic, strong) UIView *constumFooterView; // default is nil
 
-- (void)showPhotoFlowViewInViewController:(UIViewController *)controller viewType:(PFViewType)viewType;
-- (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated; // only effect with PFViewTypeBottom
-
+@property (nonatomic, readonly) BOOL isPhotoFlowViewShowing;
 - (void)dismissPhotoFlowView;
 
 @end
