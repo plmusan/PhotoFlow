@@ -7,12 +7,12 @@
 //
 
 #import "PFViewController.h"
-#import "CHTCollectionViewWaterfallLayout.h"
 #import "PFCollectionViewCell.h"
 
 const CGFloat PFViewBottonTypeHeight = 180.0;
+const NSTimeInterval AnimationDuration = 0.5;
 
-@interface PFViewController () <CHTCollectionViewDelegateWaterfallLayout, UICollectionViewDataSource>
+@interface PFViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeight;
@@ -26,23 +26,24 @@ const CGFloat PFViewBottonTypeHeight = 180.0;
 @implementation PFViewController
 
 + (instancetype)defaultController {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PFView.storyboard" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PFView" bundle:nil];
     PFViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"PFViewController"];
     return controller;
 }
 
 #pragma mark Interface Method
 
-- (void)showPhotoFlowViewAtIndex:(NSInteger)index inViewController:(UIViewController *)controller {
-    [self showPhotoFlowViewInViewController:controller viewType:PFViewTypeBottom];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+- (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated {
+    if (self.viewType == PFViewTypeBottom) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    }
 }
 
 - (void)showPhotoFlowViewInViewController:(UIViewController *)controller viewType:(PFViewType)viewType {
     [controller addChildViewController:self];
     [controller.view addSubview:self.view];
-    self.viewType = viewType;
+    [self changeViewType:viewType animated:NO];
 }
 
 - (void)dismissPhotoFlowView {
@@ -50,10 +51,23 @@ const CGFloat PFViewBottonTypeHeight = 180.0;
     [self removeFromParentViewController];
 }
 
-- (void)setViewType:(PFViewType)viewType {
-    _viewType = viewType;
-    if (self.parentViewController) {
+- (void)changeViewType:(PFViewType)viewType animated:(BOOL)animated {
+    if (! self.parentViewController) return;
+    self.viewType = viewType;
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    BOOL isBottomType = viewType == PFViewTypeBottom;
+    self.collectionView.alwaysBounceHorizontal = isBottomType;
+    self.collectionView.alwaysBounceVertical = ! isBottomType;
+    layout.scrollDirection = isBottomType ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionVertical;
+    if (animated) {
+        [UIView animateWithDuration:AnimationDuration animations:^{
+            [self showPhotoFlowViewWithViewType:viewType];
+        } completion:^(BOOL finished) {
+            [self.collectionView reloadData];
+        }];
+    } else {
         [self showPhotoFlowViewWithViewType:viewType];
+        [self.collectionView reloadData];
     }
 }
 
@@ -63,15 +77,10 @@ const CGFloat PFViewBottonTypeHeight = 180.0;
         CGFloat y = self.parentViewController.view.frame.size.height - PFViewBottonTypeHeight;
         CGFloat width = self.parentViewController.view.frame.size.width;
         self.view.frame = CGRectMake(x, y, width, PFViewBottonTypeHeight);
-        self.collectionView.alwaysBounceHorizontal = YES;
-        self.collectionView.alwaysBounceVertical = NO;
     } else if (viewType == PFViewTypeFullScreen) {
         self.view.frame = self.parentViewController.view.frame;
-        self.collectionView.alwaysBounceHorizontal = NO;
-        self.collectionView.alwaysBounceVertical = YES;
     }
     [self.view layoutIfNeeded];
-    [self.collectionView reloadData];
 }
 
 - (void)setConstumHeaderView:(UIView *)constumHeaderView {
@@ -99,6 +108,12 @@ const CGFloat PFViewBottonTypeHeight = 180.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.footerViewHeight.constant = 0.0;
+}
+- (IBAction)rightButtonPressed:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(photoFlowView:rightButtonPressed:)]) {
+        [self.delegate photoFlowView:self rightButtonPressed:sender];
+    }
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,15 +141,7 @@ const CGFloat PFViewBottonTypeHeight = 180.0;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(120, 100);
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout columnCountForSection:(NSInteger)section {
-    if (self.viewType == PFViewTypeBottom) {
-        return self.datasource.count > 0 ? : 1 ;
-    } else {
-        return 3;
-    }
+    return CGSizeMake(110, 110);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

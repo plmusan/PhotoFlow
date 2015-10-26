@@ -19,6 +19,9 @@ typedef NS_ENUM(NSInteger, PFViewType) {
 + (instancetype)defaultController;
 
 @property (nonatomic, assign) PFViewType viewType;
+// if [PFViewController parentViewController] is nil, nothing effect.
+- (void)changeViewType:(PFViewType)viewType animated:(BOOL)animated;
+
 @property (nonatomic, copy) NSArray *datasource;
 
 @property (nonatomic, weak) id <PFViewControllerDelegate> delegate;
@@ -26,7 +29,9 @@ typedef NS_ENUM(NSInteger, PFViewType) {
 @property (nonatomic, strong) UIView *constumHeaderView; //default is nil
 @property (nonatomic, strong) UIView *constumFooterView; // default is nil
 
-- (void)showPhotoFlowViewAtIndex:(NSInteger)index inViewController:(UIViewController *)controller;
+- (void)showPhotoFlowViewInViewController:(UIViewController *)controller viewType:(PFViewType)viewType;
+- (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated; // only effect with PFViewTypeBottom
+
 - (void)dismissPhotoFlowView;
 
 @end
@@ -35,7 +40,10 @@ typedef NS_ENUM(NSInteger, PFViewType) {
 @protocol PFViewControllerDelegate <NSObject>
 
 @optional
+
 - (BOOL)photoFlowView:(PFViewController *)controller shouldSelecteItemAtIndex:(NSInteger)index;
 - (void)photoFlowView:(PFViewController *)controller didSelectedItemAtIndex:(NSInteger)index;
+
+- (void)photoFlowView:(PFViewController *)controller rightButtonPressed:(UIButton *)rightButton;
 
 @end
