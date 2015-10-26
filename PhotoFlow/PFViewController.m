@@ -36,10 +36,13 @@ const NSTimeInterval AnimationDuration = 0.5;
 #pragma mark Interface Method
 
 - (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated {
+    _index = index;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     if (self.viewType == PFViewTypeBottom) {
-        _index = index;
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
+    }
+    else {
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
     }
 }
 
@@ -67,11 +70,13 @@ const NSTimeInterval AnimationDuration = 0.5;
     if (animated) {
         [UIView animateWithDuration:AnimationDuration animations:^{
             [self showPhotoFlowViewWithViewType:viewType];
+        } completion:^(BOOL finished) {
+            [self scrollToItemAtIndex:self.index animated:animated];
         }];
     } else {
         [self showPhotoFlowViewWithViewType:viewType];
+        [self scrollToItemAtIndex:self.index animated:animated];
     }
-    [self scrollToItemAtIndex:self.index animated:NO];
 }
 
 - (void)showPhotoFlowViewWithViewType:(PFViewType)viewType {
@@ -156,7 +161,7 @@ const NSTimeInterval AnimationDuration = 0.5;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(110, 110);
+    return CGSizeMake(210, 110);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
