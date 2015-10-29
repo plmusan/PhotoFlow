@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8E1C15A4-C1A9-4603-BF9E-2B98AA524C36</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PhotoFlow</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BEBD57B0A13ADD5D3186505BBB794FA204E1AB03</key>
+		<string>https://github.com/plmusan/PhotoFlow.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PhotoFlow.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BEBD57B0A13ADD5D3186505BBB794FA204E1AB03</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/plmusan/PhotoFlow.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BEBD57B0A13ADD5D3186505BBB794FA204E1AB03</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BEBD57B0A13ADD5D3186505BBB794FA204E1AB03</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PhotoFlow</string>
+		</dict>
+	</array>
+</dict>
+</plist>

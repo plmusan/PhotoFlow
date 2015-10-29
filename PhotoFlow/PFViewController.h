@@ -13,9 +13,6 @@ typedef NS_ENUM(NSInteger, PFViewType) {
     PFViewTypeFullScreen,
 };
 
-extern const CGFloat PFViewBottonTypeHeight;
-extern const NSTimeInterval AnimationDuration;
-
 @protocol PFViewControllerDelegate;
 @interface PFViewController : UIViewController
 

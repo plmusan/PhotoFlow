@@ -10,8 +10,8 @@
 #import "PFViewController.h"
 
 @interface ViewController () <PFViewControllerDelegate>
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) PFViewController *controller;
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) PFViewController *controller;
 @property (nonatomic) NSInteger showingIndex;
 @end
 
@@ -54,7 +54,8 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = touches.anyObject;
     CGPoint location = [touch locationInView:self.view];
-    if (location.y > PFViewBottonTypeHeight) {
+    CGFloat y = self.view.frame.size.height - self.controller.view.frame.size.height;
+    if (location.y < y) {
         [self.controller dismissPhotoFlowView];
     }
 }
